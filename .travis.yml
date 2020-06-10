@@ -15,12 +15,12 @@ env:
     - RUSTFLAGS="-D warnings"
 
 addons:
-  apt:
-    update: true
-    sources:
-      - sourceline: 'ppa:maarten-fonville/protobuf'
-    packages:
-      - protobuf-compiler
+#  apt:
+#    update: true
+#    sources:
+#      - sourceline: 'ppa:maarten-fonville/protobuf'
+#    packages:
+#      - protobuf-compiler
   homebrew:
     packages:
       - protobuf
