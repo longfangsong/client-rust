@@ -1,12 +1,12 @@
 sudo: false
 
 language: rust
-os:
-  - linux
+#os:
+#  - linux
   # - windows # TODO: https://github.com/pingcap/kvproto/issues/355
 #  - osx
-rust:
-  - stable
+#rust:
+#  - stable
 #  - nightly
 
 #env:
