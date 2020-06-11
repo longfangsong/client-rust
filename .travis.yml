@@ -7,7 +7,7 @@ os:
   - osx
 rust:
   - 1.42.0
-  - nightly-1.42.0
+  - nightly-2020-01-07
 
 env:
   global:
@@ -49,13 +49,13 @@ script:
   - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "1.42.0" ]]; then cargo clippy -- -D clippy::all; fi
   - cargo build --all
   - cargo build --examples
-  - if [[ $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then cargo test --all -- --nocapture; fi
+  - if [[ $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then cargo test --all -- --nocapture; fi
   #   For now we only run full integration tests on Linux. Here's why:
   #   * Docker on OS X is not supported by Travis.
   #   * Docker on Windows seems to not have the correct binary at `"/c/Program Files/Docker/Docker/DockerCli.exe" to switch it to Linux containers.
-  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then docker run -d --net=host --name pd --rm pingcap/pd:nightly --name "pd" --data-dir "pd" --client-urls "http://127.0.0.1:2379" --advertise-client-urls "http://127.0.0.1:2379"; fi
-  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then docker run -d --net=host --name kv --rm --ulimit nofile=90000:90000 pingcap/tikv:nightly --pd-endpoints "127.0.0.1:2379" --addr "127.0.0.1:2378" --data-dir "kv"; fi
-  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then docker ps; fi
-  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then docker logs pd; fi
-  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then docker logs kv; fi
-  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-1.42.0" ]]; then PD_ADDRS="127.0.0.1:2379" cargo test --all --features integration-tests -- --nocapture; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then docker run -d --net=host --name pd --rm pingcap/pd:nightly --name "pd" --data-dir "pd" --client-urls "http://127.0.0.1:2379" --advertise-client-urls "http://127.0.0.1:2379"; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then docker run -d --net=host --name kv --rm --ulimit nofile=90000:90000 pingcap/tikv:nightly --pd-endpoints "127.0.0.1:2379" --addr "127.0.0.1:2378" --data-dir "kv"; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then docker ps; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then docker logs pd; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then docker logs kv; fi
+  - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "nightly-2020-01-07" ]]; then PD_ADDRS="127.0.0.1:2379" cargo test --all --features integration-tests -- --nocapture; fi
