@@ -22,6 +22,7 @@ addons:
     packages:
       - protobuf-compiler
       - git
+      - libssl-dev
 #  homebrew:
 #    packages:
 #      - protobuf
