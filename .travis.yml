@@ -14,13 +14,14 @@ rust:
 #    - RUST_BACKTRACE=1
 #    - RUSTFLAGS="-D warnings"
 
-#addons:
-#  apt:
-#    update: true
-#    sources:
-#      - sourceline: 'ppa:maarten-fonville/protobuf'
-#    packages:
-#      - protobuf-compiler
+addons:
+  apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:maarten-fonville/protobuf'
+    packages:
+      - protobuf-compiler
+      - git
 #  homebrew:
 #    packages:
 #      - protobuf
