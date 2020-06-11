@@ -7,7 +7,7 @@ language: rust
 #  - osx
 rust:
 #  - stable
-  - nightly
+  - 1.42.0
 
 #env:
 #  global:
