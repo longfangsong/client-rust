@@ -21,6 +21,7 @@ addons:
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
       - protobuf-compiler
+      - g++
   homebrew:
     packages:
       - protobuf
