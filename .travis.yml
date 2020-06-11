@@ -1,7 +1,7 @@
 sudo: false
 
 language: rust
-  #os:
+os:
   - linux
   #  - windows # TODO: https://github.com/pingcap/kvproto/issues/355
   - osx
