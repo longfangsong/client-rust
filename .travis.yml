@@ -10,10 +10,10 @@ rust:
   - 1.43.0
   - 1.44.0
 
-#env:
-#  global:
-#    - RUST_BACKTRACE=1
-#    - RUSTFLAGS="-D warnings"
+env:
+  global:
+    - RUST_BACKTRACE=1
+    - RUSTFLAGS="-D warnings"
 
 addons:
   apt:
@@ -22,8 +22,6 @@ addons:
       - sourceline: 'ppa:maarten-fonville/protobuf'
     packages:
       - protobuf-compiler
-      - git
-      - libssl-dev
   homebrew:
     packages:
       - protobuf
