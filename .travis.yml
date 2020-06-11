@@ -27,6 +27,9 @@ addons:
       - cmake
       - go
 
+before_install:
+  rm ./rust-toolchain
+
 install:
   - if [[ $TRAVIS_OS_NAME == "linux" && $TRAVIS_RUST_VERSION == "1.42.0" ]]; then rustup component add rustfmt; fi
   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then
@@ -40,7 +43,6 @@ install:
   - if [[ $TRAVIS_OS_NAME == "windows" ]]; then export PATH="$PATH:/c/Go/bin/:/c/Program Files/CMake/bin"; fi
 
 before_script:
-  - rm ./rust-toolchain
   - eval "$(gimme stable)"
 
 script:
