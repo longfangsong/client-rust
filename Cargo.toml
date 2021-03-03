@@ -18,21 +18,21 @@ integration-tests = []
 name = "tikv_client"
 
 [dependencies]
-async-trait = "0.1"
-derive-new = "0.5"
-fail = "0.4"
-futures = { version = "0.3.5", features = ["async-await", "thread-pool"] }
-futures-timer = "3.0"
-grpcio = { version = "0.8", features = [ "secure", "prost-codec", "use-bindgen" ], default-features = false }
-lazy_static = "1"
-log = "0.4"
-prometheus = { version = "0.11", features = [ "push", "process" ], default-features = false } 
-rand = "0.8"
-regex = "1"
-serde = "1.0"
-serde_derive = "1.0"
-thiserror = "1"
-tokio = { version = "1.0", features = [ "sync", "time" ] }
+async-trait = "0.1.42"
+derive-new = "0.5.9"
+fail = "0.4.0"
+futures = { version = "0.3.13", features = ["async-await", "thread-pool"] }
+futures-timer = "3.0.2"
+grpcio = { version = "0.8.0", features = [ "secure", "prost-codec", "use-bindgen" ], default-features = false }
+lazy_static = "1.4.0"
+log = "0.4.14"
+prometheus = { version = "0.11.0", features = [ "push", "process" ], default-features = false } 
+rand = "0.8.3"
+regex = "1.4.3"
+serde = "1.0.123"
+serde_derive = "1.0.123"
+thiserror = "1.0.24"
+tokio = { version = "1.2.0", features = [ "sync", "time" ] }
 
 tikv-client-common = { path = "tikv-client-common" }
 tikv-client-pd = { path = "tikv-client-pd" }
@@ -48,7 +48,7 @@ proptest = "0.10"
 proptest-derive = "0.2"
 serial_test = "0.5.0"
 simple_logger = "1.9.0"
-tokio = { version = "1.0", features = [ "sync", "rt-multi-thread", "macros" ] }
+tokio = { version = "1.2.0", features = [ "sync", "rt-multi-thread", "macros" ] }
 
 [workspace]
 members = [

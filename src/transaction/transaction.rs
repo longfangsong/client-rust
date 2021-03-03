@@ -246,7 +246,7 @@ impl Transaction {
     /// It can only be used in pessimistic mode.
     ///
     /// # Examples
-    /// ```rust,no_run,compile_fail
+    /// ```rust, no_run, compile_fail
     /// # use tikv_client::{Key, Value, Config, TransactionClient};
     /// # use futures::prelude::*;
     /// # use std::collections::HashMap;
