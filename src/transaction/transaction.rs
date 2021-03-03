@@ -11,7 +11,7 @@ use crate::{
 use derive_new::new;
 use fail::fail_point;
 use futures::{executor::ThreadPool, prelude::*, stream::BoxStream};
-use std::{iter, ops::RangeBounds, sync::Arc};
+use std::{iter, ops::RangeBounds, sync::Arc, time::SystemTime};
 use tikv_client_proto::{kvrpcpb, pdpb::Timestamp};
 use tokio::{sync::RwLock, time::Duration};
 
@@ -930,7 +930,9 @@ struct Committer {
 impl Committer {
     async fn commit(mut self) -> Result<Option<Timestamp>> {
         let min_commit_ts = self.prewrite().await?;
+        println!("Before after-prewrite {:?}", SystemTime::now());
         fail_point!("after-prewrite");
+        println!("After after-prewrite {:?}", SystemTime::now());
 
         // If we didn't use 1pc, prewrite will set `try_one_pc` to false.
         if self.options.try_one_pc {
