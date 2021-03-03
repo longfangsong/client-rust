@@ -505,6 +505,11 @@ impl Transaction {
     pub async fn commit(&mut self) -> Result<Option<Timestamp>> {
         {
             let mut status = self.status.write().await;
+            println!(
+                "StartedCommit: {:?}",
+                matches!(*status, TransactionStatus::StartedCommit)
+            );
+            println!("Active: {:?}", matches!(*status, TransactionStatus::Active));
             if !matches!(
                 *status,
                 TransactionStatus::StartedCommit | TransactionStatus::Active
@@ -533,6 +538,8 @@ impl Transaction {
         )
         .commit()
         .await;
+
+        println!("Committer says: {:?}", res);
 
         if res.is_ok() {
             let mut status = self.status.write().await;
