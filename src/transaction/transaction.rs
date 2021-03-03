@@ -46,7 +46,7 @@ use tokio::{sync::RwLock, time::Duration};
 /// ```
 pub struct Transaction {
     status: Arc<RwLock<TransactionStatus>>,
-    timestamp: Timestamp,
+    pub timestamp: Timestamp,
     buffer: Buffer,
     bg_worker: ThreadPool,
     rpc: Arc<PdRpcClient>,
@@ -156,7 +156,7 @@ impl Transaction {
         } else {
             let key = key.into();
             let mut values = self.pessimistic_lock(iter::once(key.clone()), true).await?;
-            assert!(values.len() == 1);
+            assert_eq!(values.len(), 1);
             Ok(values.pop().unwrap())
         }
     }
@@ -207,8 +207,8 @@ impl Transaction {
     /// ```
     pub async fn batch_get(
         &self,
-        keys: impl IntoIterator<Item = impl Into<Key>>,
-    ) -> Result<impl Iterator<Item = KvPair>> {
+        keys: impl IntoIterator<Item=impl Into<Key>>,
+    ) -> Result<impl Iterator<Item=KvPair>> {
         self.check_allow_operation().await?;
         let timestamp = self.timestamp.clone();
         let rpc = self.rpc.clone();
@@ -270,8 +270,8 @@ impl Transaction {
     #[allow(dead_code)]
     async fn batch_get_for_update(
         &mut self,
-        keys: impl IntoIterator<Item = impl Into<Key>>,
-    ) -> Result<impl Iterator<Item = KvPair>> {
+        keys: impl IntoIterator<Item=impl Into<Key>>,
+    ) -> Result<impl Iterator<Item=KvPair>> {
         self.check_allow_operation().await?;
         if !self.is_pessimistic() {
             Err(Error::InvalidTransactionType)
@@ -312,7 +312,7 @@ impl Transaction {
         &self,
         range: impl Into<BoundRange>,
         limit: u32,
-    ) -> Result<impl Iterator<Item = KvPair>> {
+    ) -> Result<impl Iterator<Item=KvPair>> {
         self.scan_inner(range, limit, false).await
     }
 
@@ -346,7 +346,7 @@ impl Transaction {
         &self,
         range: impl Into<BoundRange>,
         limit: u32,
-    ) -> Result<impl Iterator<Item = Key>> {
+    ) -> Result<impl Iterator<Item=Key>> {
         Ok(self
             .scan_inner(range, limit, true)
             .await?
@@ -470,7 +470,7 @@ impl Transaction {
     /// ```
     pub async fn lock_keys(
         &mut self,
-        keys: impl IntoIterator<Item = impl Into<Key>>,
+        keys: impl IntoIterator<Item=impl Into<Key>>,
     ) -> Result<()> {
         self.check_allow_operation().await?;
         match self.options.kind {
@@ -506,10 +506,10 @@ impl Transaction {
         {
             let mut status = self.status.write().await;
             println!(
-                "StartedCommit: {:?}",
+                "{:?} StartedCommit: {:?}", self.timestamp,
                 matches!(*status, TransactionStatus::StartedCommit)
             );
-            println!("Active: {:?}", matches!(*status, TransactionStatus::Active));
+            println!("{:?} Active: {:?}", self.timestamp, matches!(*status, TransactionStatus::Active));
             if !matches!(
                 *status,
                 TransactionStatus::StartedCommit | TransactionStatus::Active
@@ -536,8 +536,8 @@ impl Transaction {
             self.rpc.clone(),
             self.options.clone(),
         )
-        .commit()
-        .await;
+            .commit()
+            .await;
 
         println!("Committer says: {:?}", res);
 
@@ -577,8 +577,8 @@ impl Transaction {
             self.rpc.clone(),
             self.options.clone(),
         )
-        .rollback()
-        .await;
+            .rollback()
+            .await;
 
         if res.is_ok() {
             let mut status = self.status.write().await;
@@ -612,7 +612,7 @@ impl Transaction {
         range: impl Into<BoundRange>,
         limit: u32,
         key_only: bool,
-    ) -> Result<impl Iterator<Item = KvPair>> {
+    ) -> Result<impl Iterator<Item=KvPair>> {
         self.check_allow_operation().await?;
         let timestamp = self.timestamp.clone();
         let rpc = self.rpc.clone();
@@ -646,7 +646,7 @@ impl Transaction {
     /// Only valid for pessimistic transactions, panics if called on an optimistic transaction.
     async fn pessimistic_lock(
         &mut self,
-        keys: impl IntoIterator<Item = Key>,
+        keys: impl IntoIterator<Item=Key>,
         need_value: bool,
     ) -> Result<Vec<Option<Value>>> {
         assert!(

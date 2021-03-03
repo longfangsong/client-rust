@@ -1,6 +1,7 @@
 #![cfg(feature = "integration-tests")]
 
 mod common;
+
 use common::{clear_tikv, pd_addrs};
 use serial_test::serial;
 use tikv_client::{Result, TransactionClient, TransactionOptions};
@@ -18,11 +19,13 @@ async fn optimistic_heartbeat() -> Result<()> {
     let mut heartbeat_txn = client
         .begin_with_options(TransactionOptions::new_optimistic())
         .await?;
+    println!("{:?} started with heartbeat", heartbeat_txn.timestamp);
     heartbeat_txn.put(key1.clone(), "foo").await.unwrap();
 
     let mut txn_without_heartbeat = client
         .begin_with_options(TransactionOptions::new_optimistic().no_auto_hearbeat())
         .await?;
+    println!("{:?} started without heartbeat", txn_without_heartbeat.timestamp);
     txn_without_heartbeat
         .put(key2.clone(), "fooo")
         .await
