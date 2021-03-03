@@ -544,7 +544,7 @@ impl Transaction {
         .commit()
         .await;
 
-        println!("Committer says: {:?}", res);
+        println!("{:?} Committer says: {:?}", self.timestamp, res);
 
         if res.is_ok() {
             let mut status = self.status.write().await;

@@ -10,7 +10,7 @@ use tikv_client::{Result, TransactionClient, TransactionOptions};
 #[serial]
 async fn optimistic_heartbeat() -> Result<()> {
     clear_tikv().await;
-    fail::cfg("after-prewrite", "sleep(10000)").unwrap();
+    fail::cfg("after-prewrite", "sleep(1000000)").unwrap();
 
     let key1 = "key1".to_owned();
     let key2 = "key2".to_owned();
