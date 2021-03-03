@@ -25,7 +25,10 @@ async fn optimistic_heartbeat() -> Result<()> {
     let mut txn_without_heartbeat = client
         .begin_with_options(TransactionOptions::new_optimistic().no_auto_hearbeat())
         .await?;
-    println!("{:?} started without heartbeat", txn_without_heartbeat.timestamp);
+    println!(
+        "{:?} started without heartbeat",
+        txn_without_heartbeat.timestamp
+    );
     txn_without_heartbeat
         .put(key2.clone(), "fooo")
         .await
