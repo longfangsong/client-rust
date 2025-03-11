@@ -8,7 +8,7 @@ build = "build.rs"
 protobuf-build = { version = "0.12", default-features = false, features = ["grpcio-prost-codec"] }
 
 [dependencies]
-protobuf = "=2.8.0"
+protobuf = "=3.7.2"
 prost = { version = "0.7" }
 prost-derive = { version = "0.7" }
 futures = "0.3.5"
